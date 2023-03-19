@@ -1,12 +1,28 @@
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import Customers from '../pages/Customers';
+import 'react-toastify/dist/ReactToastify.css';
+import Layout from './Layout';
+
 export function App() {
   return (
-    <div className="text-blue-600">
-      <div className="mockup-phone">
-        <div className="camera"></div>
-        <div className="display">
-          <div className="artboard artboard-demo phone-1">Hi.</div>
-        </div>
-      </div>
+    <div>
+      <ToastContainer
+        position="bottom-center"
+        hideProgressBar
+        autoClose={1000}
+        theme="dark"
+        bodyClassName="text-center"
+        closeButton={false}
+        limit={1}
+      />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/admin" element={<Layout />}>
+            <Route path="customers" element={<Customers />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
