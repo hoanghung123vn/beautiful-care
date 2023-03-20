@@ -1,21 +1,20 @@
 import { useState } from 'react';
-import { customerApi } from '../apis/customer.api';
+import { useNavigate } from 'react-router-dom';
 import { useGetCustomers } from '../hooks';
 
 export default function Customers() {
   const [stale, setStale] = useState({ stale: false });
   const { customers, isLoading, isError } = useGetCustomers(stale);
-  const onClick = () => {
-    customerApi.createDocument({
-      name: 'Hoang Hung',
-      phone: '0971371901',
-    });
-  };
+
+  const navigate = useNavigate();
   return (
-    <div className="px-8 pt-4">
+    <>
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">Khách hàng</h2>
-        <button className="btn btn-primary" onClick={onClick}>
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate('/admin/customers/create')}
+        >
           Thêm khách hàng
         </button>
       </div>
@@ -96,7 +95,9 @@ export default function Customers() {
                       </div>
                       <div>
                         <div className="font-bold">{customer.name}</div>
-                        <div className="text-sm opacity-50">Ba Đình</div>
+                        <div className="text-sm opacity-50">
+                          {customer.address}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -110,6 +111,6 @@ export default function Customers() {
           </table>
         </div>
       </div>
-    </div>
+    </>
   );
 }

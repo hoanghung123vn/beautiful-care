@@ -1,7 +1,8 @@
 import { Models } from 'appwrite';
-import { databaseId, getProvider } from './api';
+import { getProvider } from './api';
 
-export const collectionId = '6416c494d83da841095b';
+export const databaseId = import.meta.env.VITE_DATABASE_ID;
+export const collectionId = import.meta.env.VITE_CUSTOMER_COLLETION_ID;
 
 export interface CustomerRequest {
   name: string;
@@ -9,6 +10,9 @@ export interface CustomerRequest {
   email?: string;
   totalUsedTimes?: number;
   totalSpend?: number;
+  address?: string;
+  note?: string;
+  tags?: string;
 }
 
 export type Customer = Required<CustomerRequest> & Models.Document;

@@ -3,6 +3,8 @@ import { ToastContainer } from 'react-toastify';
 import Customers from '../pages/Customers';
 import 'react-toastify/dist/ReactToastify.css';
 import Layout from './Layout';
+import Login from './Login';
+import Customer from '../pages/Customer';
 
 export function App() {
   return (
@@ -18,8 +20,10 @@ export function App() {
       />
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Layout />}>
             <Route path="customers" element={<Customers />} />
+            <Route path="customers/create" element={<Customer />} />
           </Route>
         </Routes>
       </BrowserRouter>
