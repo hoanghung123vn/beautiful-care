@@ -13,6 +13,8 @@ export interface CustomerRequest {
   address?: string;
   note?: string;
   tags?: string;
+  gender?: string;
+  dateOfBirth?: string;
 }
 
 export type Customer = Required<CustomerRequest> & Models.Document;
