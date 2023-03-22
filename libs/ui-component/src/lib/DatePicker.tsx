@@ -59,17 +59,16 @@ export function DatePicker({
 
   return (
     <div className="text-sm">
-      <h6 className="text-ink-80">{label}</h6>
+      <h6 className="px-1 py-2">{label}</h6>
       <div className="relative">
         <input
           type="text"
           autoComplete="off"
           className={classNames(
-            'outline-none border rounded pr-3 pl-9 py-2 w-full h-10 hover:border-ink-60',
+            'outline-none border rounded pr-3 pl-9 py-2 w-full h-12 hover:border-gray-400',
             {
-              'mt-1': !!label,
-              'focus:border-primary': !errorMessage,
-              'border-danger': errorMessage,
+              'focus:border-gray-400': !errorMessage,
+              'border-red-400': errorMessage,
             }
           )}
           id={id}
@@ -82,7 +81,7 @@ export function DatePicker({
           <NextCalendarIcon
             width="16"
             height="16"
-            className="fill-current text-ink-40 absolute bottom-3 left-3"
+            className="fill-current text-gray-400 absolute bottom-4 left-4"
           />
         </label>
       </div>

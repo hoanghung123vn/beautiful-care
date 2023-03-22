@@ -15,7 +15,7 @@ export interface OptionProp {
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ title, error, options, value, ...props }, ref) => {
     return (
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         {title && (
           <label className="label">
             <span className="label-text">{title}</span>

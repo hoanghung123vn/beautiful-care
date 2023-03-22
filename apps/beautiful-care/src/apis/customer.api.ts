@@ -15,6 +15,7 @@ export interface CustomerRequest {
   tags?: string;
   gender?: string;
   dateOfBirth?: string;
+  career?: string;
 }
 
 export type Customer = Required<CustomerRequest> & Models.Document;

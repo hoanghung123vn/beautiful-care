@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGetCustomers } from '../hooks';
 
 export default function Customers() {
@@ -94,7 +94,11 @@ export default function Customers() {
                         </div>
                       </div>
                       <div>
-                        <div className="font-bold">{customer.name}</div>
+                        <div className="font-bold">
+                          <Link to={`/admin/customers/${customer.$id}`}>
+                            {customer.name}
+                          </Link>
+                        </div>
                         <div className="text-sm opacity-50">
                           {customer.address}
                         </div>

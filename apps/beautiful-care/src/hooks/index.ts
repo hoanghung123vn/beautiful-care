@@ -1,3 +1,4 @@
+import { formatDate } from '@beautiful-care/ui-component';
 import { useEffect, useReducer } from 'react';
 import { api } from '../apis/api';
 import { Customer, customerApi } from '../apis/customer.api';
@@ -101,7 +102,13 @@ export const useGetCustomer = (id?: string) => {
       try {
         const data = await customerApi.getCustomer(id);
         if (!didCancel) {
-          dispatch({ type: FetchState.FETCH_SUCCESS, payload: data });
+          dispatch({
+            type: FetchState.FETCH_SUCCESS,
+            payload: {
+              ...data,
+              dateOfBirth: formatDate(new Date(data.dateOfBirth), 'mm/dd/yyyy'),
+            },
+          });
         }
       } catch (e) {
         if (!didCancel) {

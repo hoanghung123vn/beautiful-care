@@ -8,7 +8,7 @@ export default function Layout() {
 
   if (user) {
     return (
-      <div className="h-screen bg-gray-100 text-black text-sm flex">
+      <div className="min-h-screen bg-gray-100 text-black text-sm flex">
         <SideBar className="hidden lg:block" />
         <MainNav className="w-full px-8 pt-4">
           <Outlet />

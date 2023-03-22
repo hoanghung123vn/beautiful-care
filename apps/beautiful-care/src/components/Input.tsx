@@ -12,7 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     forwardedRef
   ) => {
     return (
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         {title && (
           <label className="label">
             <span className="label-text">{title}</span>
@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           placeholder={placeholder}
           className={classNames(
-            'input input-bordered w-full max-w-xs text-sm',
+            'input input-bordered w-full text-sm',
             className
           )}
           {...props}

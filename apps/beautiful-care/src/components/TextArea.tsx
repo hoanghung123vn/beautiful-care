@@ -6,7 +6,7 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ title, error, ...props }, ref) => {
+  ({ title, error, value, ...props }, ref) => {
     return (
       <div className="form-control">
         {title && (
@@ -16,6 +16,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         )}
         <textarea
           className="textarea textarea-bordered h-24"
+          value={value}
           ref={ref}
           {...props}
         ></textarea>
