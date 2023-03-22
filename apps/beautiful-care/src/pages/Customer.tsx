@@ -8,6 +8,7 @@ import Input from '../components/Input';
 import Select from '../components/Select';
 import TextArea from '../components/TextArea';
 import { useGetCustomer } from '../hooks';
+import { DatePicker } from '@beautiful-care/ui-component';
 
 const variantSchema = object({
   name: string()
@@ -105,6 +106,7 @@ export default function Customer() {
           </button>
         </div>
       </form>
+      <DatePicker id={'dasdsa'} value={''} />
     </>
   );
 }

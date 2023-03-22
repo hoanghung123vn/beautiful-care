@@ -56,6 +56,7 @@ import { ReactComponent as TrashXSolidIcon } from '../assets/icons/trash-x-solid
 import { ReactComponent as ViewIcon } from '../assets/icons/view.svg';
 import { ReactComponent as ViewSolidIcon } from '../assets/icons/view-solid.svg';
 import { ReactComponent as WebsiteIcon } from '../assets/icons/website.svg';
+import { ReactComponent as NextCalendarIcon } from '../assets/icons/next-calendar.svg';
 
 export {
   AccountIcon,
@@ -116,4 +117,5 @@ export {
   ViewIcon,
   ViewSolidIcon,
   WebsiteIcon,
+  NextCalendarIcon,
 };
