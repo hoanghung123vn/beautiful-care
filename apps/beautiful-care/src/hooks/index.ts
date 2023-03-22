@@ -106,7 +106,9 @@ export const useGetCustomer = (id?: string) => {
             type: FetchState.FETCH_SUCCESS,
             payload: {
               ...data,
-              dateOfBirth: formatDate(new Date(data.dateOfBirth), 'mm/dd/yyyy'),
+              dateOfBirth: data.dateOfBirth
+                ? formatDate(new Date(data.dateOfBirth))
+                : '',
             },
           });
         }

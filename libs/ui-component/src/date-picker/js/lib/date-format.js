@@ -154,7 +154,7 @@ function parseFormatString(format) {
   });
 }
 
-export function parseDate(dateStr, format, locale) {
+export function parseDate(dateStr, format = 'dd/mm/yyyy', locale = 'vi') {
   if (dateStr instanceof Date || typeof dateStr === 'number') {
     const date = stripTime(dateStr);
     return isNaN(date) ? undefined : date;
@@ -174,7 +174,7 @@ export function parseDate(dateStr, format, locale) {
   return parseFormatString(format).parser(dateStr, locale);
 }
 
-export function formatDate(date, format = 'dd/mm/yyyy', locale) {
+export function formatDate(date, format = 'dd/mm/yyyy', locale = 'vi') {
   if (isNaN(date) || (!date && date !== 0)) {
     return '';
   }

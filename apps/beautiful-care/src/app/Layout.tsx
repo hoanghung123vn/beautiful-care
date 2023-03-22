@@ -1,3 +1,4 @@
+import { SpinnerIcon } from 'libs/ui-component/src/lib/Icons';
 import { Navigate, Outlet } from 'react-router-dom';
 import MainNav from '../components/MainNav';
 import SideBar from '../components/SideBar';
@@ -8,9 +9,9 @@ export default function Layout() {
 
   if (user) {
     return (
-      <div className="min-h-screen bg-gray-100 text-black text-sm flex">
+      <div className="min-h-screen bg-gray-100 text-black text-sm flex border shadow-sm">
         <SideBar className="hidden lg:block" />
-        <MainNav className="w-full px-8 pt-4">
+        <MainNav className="w-full px-8 py-6">
           <Outlet />
         </MainNav>
       </div>
@@ -20,6 +21,8 @@ export default function Layout() {
     return <Navigate to="/login" />;
   }
   return (
-    <div className="w-full h-screen flex justify-center items-center">spin</div>
+    <div className="w-full h-screen flex justify-center items-center">
+      <SpinnerIcon className="animate-spin" />
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Models } from 'appwrite';
+import { Models, Query } from 'appwrite';
 import { getProvider } from './api';
 
 export const databaseId = import.meta.env.VITE_DATABASE_ID;
@@ -25,7 +25,7 @@ export const customerApi = {
     return getProvider().database.listDocuments<Customer>(
       databaseId,
       collectionId,
-      queries
+      [Query.limit(10), Query.offset(0), Query.orderDesc('$createdAt')]
     );
   },
   getCustomer: (id: string) => {

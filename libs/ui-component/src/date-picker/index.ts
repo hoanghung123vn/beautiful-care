@@ -1,2 +1,2 @@
 export * from './js/main';
-export { formatDate } from './js/lib/date-format';
+export { formatDate, parseDate } from './js/lib/date-format';

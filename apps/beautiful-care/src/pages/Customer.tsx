@@ -1,5 +1,6 @@
+import { DatePicker, parseDate } from '@beautiful-care/ui-component';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string, TypeOf, z } from 'zod';
@@ -8,21 +9,24 @@ import Input from '../components/Input';
 import Select from '../components/Select';
 import TextArea from '../components/TextArea';
 import { useGetCustomer } from '../hooks';
-import { DatePicker, formatDate } from '@beautiful-care/ui-component';
-import { useId } from 'react';
 
 const variantSchema = object({
   name: string()
     .nonempty('Họ tên không được để trống')
     .max(255, 'Họ tên tối đa 255 ký tự'),
-  phone: string()
-    .nonempty('Số điện thoại không được để trống')
-    .max(20, 'Số điện thoại tối đa 20 ký tự'),
+  phone: string().regex(
+    /^[0]{1}[0-9]{9}$/,
+    'Số điện thoại gồm 10 chữ số và bắt đầu bằng số 0'
+  ),
   email: string().max(50, 'Email tối đa 50 ký tự').nullable(),
   gender: z.enum(['male', 'female']).default('female'),
   note: string().max(500, 'Ghi chú tối đa 500 ký tự').nullable(),
   address: string().max(500, 'Địa chỉ tối đa 500 ký tự').nullable(),
-  dateOfBirth: string().max(20, 'Ngày sinh tối đa 20 ký tự').nullable(),
+  dateOfBirth: string()
+    .max(20, 'Ngày sinh tối đa 20 ký tự')
+    .transform((d) => new Date(parseDate(d)))
+    .nullable()
+    .default(null),
   career: string().max(50, 'Nghề nghiệp tối đa 50 ký tự').nullable(),
 });
 
@@ -36,6 +40,7 @@ export default function Customer() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { isSubmitting, errors, isValid, isDirty },
   } = useForm<CustomerRequest>({
     resolver: zodResolver(variantSchema),
@@ -99,12 +104,14 @@ export default function Customer() {
               title="Giới tính"
               error={errors.gender?.message}
             />
-            <DatePicker
-              format="mm/dd/yyyy"
-              label="Ngày sinh"
-              id={''}
-              value={''}
+            <Controller
+              name="dateOfBirth"
+              control={control}
+              render={({ field }) => (
+                <DatePicker label="Ngày sinh" {...field} />
+              )}
             />
+
             <Input
               title="Nghề nghiệp"
               placeholder="Nhập nghề nghiệp"

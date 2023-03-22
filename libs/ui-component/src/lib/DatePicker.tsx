@@ -1,12 +1,11 @@
 import classNames from 'classnames';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useId } from 'react';
 import { Datepicker } from '../date-picker';
 import { NextCalendarIcon } from './Icons';
 
 export interface DatePickerProps {
-  id: string;
   label?: string;
-  value: string;
+  value?: string;
   onChange?: (
     dateFormated: string,
     dateSapoFormated: string,
@@ -20,7 +19,6 @@ export interface DatePickerProps {
 }
 
 export function DatePicker({
-  id,
   label,
   value = '',
   onChange = () => console.log('date chane'),
@@ -30,6 +28,7 @@ export function DatePicker({
   minDate,
   maxDate,
 }: DatePickerProps) {
+  const id = useId();
   const onDateChange = useCallback(
     ({ detail }: any) => {
       onChange(
@@ -55,7 +54,7 @@ export function DatePicker({
       datepickerEl?.removeEventListener('changeDate', onDateChange);
       datePicker.destroy();
     };
-  }, [id, onChange, onDateChange]);
+  }, [format, id, maxDate, minDate, onChange, onDateChange]);
 
   return (
     <div className="text-sm">
@@ -86,7 +85,7 @@ export function DatePicker({
         </label>
       </div>
       {errorMessage && (
-        <div className="text-xs text-danger ml-3 mt-2">{errorMessage}</div>
+        <div className="text-xs text-red-400 ml-3 mt-2">{errorMessage}</div>
       )}
     </div>
   );

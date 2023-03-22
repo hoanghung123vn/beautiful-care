@@ -89,8 +89,8 @@ export default function Customers() {
                   <td>
                     <div className="flex items-center space-x-3">
                       <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <img src="https://via.placeholder.com/52x52" />
+                        <div className="mask mask-squircle w-8 h-8">
+                          <img src="https://via.placeholder.com/32x32" />
                         </div>
                       </div>
                       <div>
