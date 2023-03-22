@@ -27,7 +27,14 @@ export const customerApi = {
       queries
     );
   },
-  createDocument: (data: CustomerRequest) => {
+  getCustomer: (id: string) => {
+    return getProvider().database.getDocument<Customer>(
+      databaseId,
+      collectionId,
+      id
+    );
+  },
+  createCustomer: (data: CustomerRequest) => {
     return getProvider().database.createDocument<Customer>(
       databaseId,
       collectionId,

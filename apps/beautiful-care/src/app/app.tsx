@@ -24,6 +24,7 @@ export function App() {
           <Route path="/admin" element={<Layout />}>
             <Route path="customers" element={<Customers />} />
             <Route path="customers/create" element={<Customer />} />
+            <Route path="customers/:id" element={<Customer />} />
           </Route>
         </Routes>
       </BrowserRouter>
