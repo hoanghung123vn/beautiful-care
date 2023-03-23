@@ -4,7 +4,9 @@ import { useGetCustomers } from '../hooks';
 
 export default function Customers() {
   const [stale, setStale] = useState({ stale: false });
-  const { customers, isLoading, isError } = useGetCustomers(stale);
+  const { customers, isLoading, isError, total } = useGetCustomers(stale);
+  const limit = 20;
+  const pages = Math.ceil(total / 20);
 
   const navigate = useNavigate();
   return (
@@ -107,12 +109,20 @@ export default function Customers() {
                   </td>
                   <td>{customer.phone}</td>
                   <td>{customer.email}</td>
-                  <td>{customer.totalUsedTimes}</td>
-                  <td>{customer.totalSpend} đ</td>
+                  <td>{customer.totalUsedTimes || 0}</td>
+                  <td>{customer.totalSpend || 0} đ</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-end">
+          <div className="btn-group">
+            <button className="btn">1</button>
+            <button className="btn btn-active">2</button>
+            <button className="btn">3</button>
+            <button className="btn">4</button>
+          </div>
         </div>
       </div>
     </>

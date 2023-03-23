@@ -13,6 +13,7 @@ interface GetCustomersState {
   isLoading: boolean;
   isError: boolean;
   customers: Customer[];
+  total: 0;
 }
 
 export const useGetCustomers = (stale: { stale: boolean }) => {
@@ -25,7 +26,8 @@ export const useGetCustomers = (stale: { stale: boolean }) => {
           ...state,
           isLoading: false,
           isError: false,
-          customers: action.payload as Customer[],
+          customers: action.payload.customers as Customer[],
+          total: action.payload.total,
         };
       case FetchState.FETCH_FAILURE:
         return { ...state, isLoading: false, isError: true };
@@ -38,6 +40,7 @@ export const useGetCustomers = (stale: { stale: boolean }) => {
     isLoading: false,
     isError: false,
     customers: [],
+    total: 0,
   });
 
   useEffect(() => {
@@ -47,7 +50,10 @@ export const useGetCustomers = (stale: { stale: boolean }) => {
       try {
         const data = await customerApi.getCustomers();
         if (!didCancel) {
-          dispatch({ type: FetchState.FETCH_SUCCESS, payload: data.documents });
+          dispatch({
+            type: FetchState.FETCH_SUCCESS,
+            payload: { customers: data.documents, total: data.total },
+          });
         }
       } catch (e) {
         if (!didCancel) {
