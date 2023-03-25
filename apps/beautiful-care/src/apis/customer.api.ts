@@ -21,11 +21,11 @@ export interface CustomerRequest {
 export type Customer = Required<CustomerRequest> & Models.Document;
 
 export const customerApi = {
-  getCustomers: (queries?: string[] | undefined) => {
+  getCustomers: (queries: string[]) => {
     return getProvider().database.listDocuments<Customer>(
       databaseId,
       collectionId,
-      [Query.limit(10), Query.offset(0), Query.orderDesc('$createdAt')]
+      [...queries, Query.orderDesc('$createdAt')]
     );
   },
   getCustomer: (id: string) => {

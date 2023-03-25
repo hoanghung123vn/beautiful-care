@@ -16,7 +16,7 @@ interface GetCustomersState {
   total: 0;
 }
 
-export const useGetCustomers = (stale: { stale: boolean }) => {
+export const useGetCustomers = (queries: string[]) => {
   const reducer = (state: GetCustomersState, action: any) => {
     switch (action.type) {
       case FetchState.FETCH_INIT:
@@ -48,7 +48,7 @@ export const useGetCustomers = (stale: { stale: boolean }) => {
     const getCustomers = async () => {
       dispatch({ type: FetchState.FETCH_INIT });
       try {
-        const data = await customerApi.getCustomers();
+        const data = await customerApi.getCustomers(queries);
         if (!didCancel) {
           dispatch({
             type: FetchState.FETCH_SUCCESS,
@@ -65,7 +65,7 @@ export const useGetCustomers = (stale: { stale: boolean }) => {
     return () => {
       didCancel = true;
     };
-  }, [stale]);
+  }, [...queries]);
 
   return state;
 };

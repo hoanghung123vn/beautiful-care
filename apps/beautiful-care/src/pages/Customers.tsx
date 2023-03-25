@@ -1,13 +1,21 @@
-import { useState } from 'react';
+import { PaginateProps, Pagination } from '@beautiful-care/ui-component';
+import { Query } from 'appwrite';
+import { useReducer } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetCustomers } from '../hooks';
 
 export default function Customers() {
-  const [stale, setStale] = useState({ stale: false });
-  const { customers, isLoading, isError, total } = useGetCustomers(stale);
-  const limit = 20;
-  const pages = Math.ceil(total / 20);
-
+  const [paginate, setPaginate] = useReducer(
+    (prev: PaginateProps, next: Partial<PaginateProps>): PaginateProps => {
+      return { ...prev, ...next };
+    },
+    { page: 1, limit: 5 }
+  );
+  const { page, limit } = paginate;
+  const { customers, isLoading, isError, total } = useGetCustomers([
+    Query.limit(limit),
+    Query.offset((page - 1) * limit),
+  ]);
   const navigate = useNavigate();
   return (
     <>
@@ -116,14 +124,13 @@ export default function Customers() {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end">
-          <div className="btn-group">
-            <button className="btn">1</button>
-            <button className="btn btn-active">2</button>
-            <button className="btn">3</button>
-            <button className="btn">4</button>
-          </div>
-        </div>
+        <Pagination
+          className="mt-2"
+          total={total}
+          page={page}
+          limit={limit}
+          onPageChange={(page) => setPaginate({ page })}
+        />
       </div>
     </>
   );
