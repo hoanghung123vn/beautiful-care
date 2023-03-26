@@ -6,28 +6,28 @@ import {
 } from '@beautiful-care/ui-component';
 import { useReducer } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetCombos } from '../hooks/useGetCombo';
+import { useGetOrders } from '../hooks/useGetOrder';
 import { useDebounce } from '../hooks/useDebounce';
 
-export interface CombosPageState {
+export interface OrdersPageState {
   page: number;
   limit: number;
   name: string;
 }
 
-export default function Combos() {
+export default function Orders() {
   const [paginate, setPaginate] = useReducer(
     (
-      prev: CombosPageState,
-      next: Partial<CombosPageState>
-    ): CombosPageState => {
+      prev: OrdersPageState,
+      next: Partial<OrdersPageState>
+    ): OrdersPageState => {
       return { ...prev, ...next };
     },
     { page: 1, limit: 5, name: '' }
   );
   const { page, limit, name } = paginate;
   const nameDebounce = useDebounce(name, 500);
-  const { combos, isLoading, isError, total } = useGetCombos(
+  const { orders, isLoading, isError, total } = useGetOrders(
     page,
     limit,
     nameDebounce
@@ -39,16 +39,16 @@ export default function Combos() {
         <h2 className="text-lg font-semibold">Khách hàng</h2>
         <button
           className="btn btn-primary"
-          onClick={() => navigate('/admin/combos/create')}
+          onClick={() => navigate('/admin/orders/create')}
         >
-          Thêm combo
+          Thêm order
         </button>
       </div>
       <div className="bg-white mt-4 rounded p-4">
         <div className="flex items-center">
           <div className="dropdown">
             <label tabIndex={0} className="btn m-1 w-48">
-              Lọc combo
+              Lọc order
             </label>
             <ul
               tabIndex={0}
@@ -81,15 +81,15 @@ export default function Combos() {
                         <input type="checkbox" className="checkbox" />
                       </label>
                     </th>
-                    <th>Tên</th>
-                    <th>Số lượng</th>
-                    <th>Giá</th>
-                    <th>Mô tả</th>
+                    <th>Tên khách hàng</th>
+                    <th>Số điện thoại khách hàng</th>
+                    <th>Số lượng dịch vụ</th>
+                    <th>Tổng giá trị</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {combos.map((combo) => (
-                    <tr key={combo.$id}>
+                  {orders.map((order) => (
+                    <tr key={order.$id}>
                       <th>
                         <label>
                           <input type="checkbox" className="checkbox" />
@@ -99,16 +99,18 @@ export default function Combos() {
                         <div className="flex items-center space-x-3">
                           <div>
                             <div className="font-bold">
-                              <Link to={`/admin/combos/${combo.$id}`}>
-                                {combo.name}
+                              <Link to={`/admin/orders/${order.$id}`}>
+                                {order.customerName}
                               </Link>
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td>{combo.quantity}</td>
-                      <td>{formatNumber(combo.price)} đ</td>
-                      <td>{combo.description}</td>
+                      <td>{order.customerPhone}</td>
+                      <td>
+                        {order.serviceQuantities.reduce((a, b) => a + b, 0)}
+                      </td>
+                      <td>{formatNumber(order.totalPrice)} đ</td>
                     </tr>
                   ))}
                 </tbody>

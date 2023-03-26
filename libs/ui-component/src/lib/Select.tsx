@@ -12,7 +12,7 @@ export interface OptionProp {
   disabled?: boolean;
 }
 
-const Select = forwardRef<HTMLSelectElement, SelectProps>(
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ title, error, options, value, ...props }, ref) => {
     return (
       <div className="form-control w-full">

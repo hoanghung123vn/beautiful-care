@@ -9,6 +9,9 @@ import Services from '../pages/Services';
 import Service from '../pages/Service';
 import Combos from '../pages/Combos';
 import Combo from '../pages/Combo';
+import Orders from '../pages/Orders';
+import Order from '../pages/Order';
+import Dashboard from '../pages/Dashboard';
 
 export function App() {
   return (
@@ -26,6 +29,7 @@ export function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Layout />}>
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="customers" element={<Customers />} />
             <Route path="customers/create" element={<Customer />} />
             <Route path="customers/:id" element={<Customer />} />
@@ -35,6 +39,9 @@ export function App() {
             <Route path="combos" element={<Combos />} />
             <Route path="combos/create" element={<Combo />} />
             <Route path="combos/:id" element={<Combo />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="orders/create" element={<Order />} />
+            <Route path="orders/:id" element={<Order />} />
           </Route>
         </Routes>
       </BrowserRouter>

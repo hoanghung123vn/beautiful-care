@@ -1,13 +1,16 @@
-import { DatePicker, parseDate } from '@beautiful-care/ui-component';
+import {
+  DatePicker,
+  parseDate,
+  Input,
+  Select,
+  TextArea,
+} from '@beautiful-care/ui-component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string, TypeOf, z } from 'zod';
 import { customerApi, CustomerRequest } from '../apis/customer.api';
-import Input from '../components/Input';
-import Select from '../components/Select';
-import TextArea from '../components/TextArea';
 import { useGetCustomer } from '../hooks/useGetCustomer';
 
 const variantSchema = object({

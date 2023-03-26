@@ -8,9 +8,9 @@ interface NumberInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: number;
 }
 
-const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
+export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
   (
-    { placeholder, className, onChange, title, error, ...props },
+    { placeholder, className, onChange, title, error, value, ...props },
     forwardedRef
   ) => {
     return (
@@ -31,6 +31,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             'input input-bordered w-full text-sm',
             className
           )}
+          value={value}
           defaultValue={undefined}
         />
         {error && (

@@ -6,7 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     { value, placeholder, className, onChange, title, error, type, ...props },
     forwardedRef
@@ -26,6 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             'input input-bordered w-full text-sm',
             className
           )}
+          onChange={onChange}
           {...props}
         />
         {error && (

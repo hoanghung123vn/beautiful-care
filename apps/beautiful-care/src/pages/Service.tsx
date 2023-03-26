@@ -1,21 +1,20 @@
+import { Input, NumberInput, TextArea } from '@beautiful-care/ui-component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { number, object, string, TypeOf } from 'zod';
 import { serviceApi, ServiceRequest } from '../apis/service.api';
-import Input from '../components/Input';
-import NumberInput from '../components/NumberInput';
-import TextArea from '../components/TextArea';
 import { useGetService } from '../hooks/useGetService';
 
 const variantSchema = object({
   name: string()
     .nonempty('Tên dịch vụ không được để trống')
     .max(255, 'Tên dịch vụ tối đa 255 ký tự'),
-  price: number()
-    .or(string())
-    .transform((p) => p.toString().replace(/,/g, '')),
+  price: string()
+    .transform((p) => p.toString().replace(/,/g, ''))
+    .refine((n) => Number(n) > 0, 'Giá phải lớn hơn 0')
+    .or(number().min(1, 'Gía phải lớn hơn 0')),
   description: string().max(500, 'Mô tả tối đa 500 ký tự'),
 });
 
@@ -28,12 +27,15 @@ export default function Service() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { isSubmitting, errors, isValid, isDirty },
   } = useForm<ServiceRequest>({
     resolver: zodResolver(variantSchema),
     mode: 'onChange',
     values: service,
   });
+
+  const form = getValues();
 
   const onSubmit = async (data: ServiceRequest) => {
     if (params.id) {

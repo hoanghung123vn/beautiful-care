@@ -9,9 +9,9 @@ export default function Layout() {
 
   if (user) {
     return (
-      <div className="min-h-screen bg-gray-100 text-black text-sm flex border shadow-sm">
+      <div className="min-h-screen w-full bg-gray-100 text-black text-sm flex">
         <SideBar className="hidden lg:block" />
-        <MainNav className="w-full px-8 py-6">
+        <MainNav className="w-full px-8 py-6 h-full lg:pl-60">
           <Outlet />
         </MainNav>
       </div>

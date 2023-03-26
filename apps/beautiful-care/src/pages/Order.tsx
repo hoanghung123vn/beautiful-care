@@ -10,16 +10,16 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { number, object, string } from 'zod';
-import { comboApi, ComboRequest } from '../apis/combo.api';
+import { orderApi, OrderRequest } from '../apis/order.api';
 import { useCombineState } from '../hooks/useCombineState';
 import { useDebounce } from '../hooks/useDebounce';
-import { useGetCombo } from '../hooks/useGetCombo';
+import { useGetOrder } from '../hooks/useGetOrder';
 import { useGetServices } from '../hooks/useGetService';
 
 const variantSchema = object({
   name: string()
-    .nonempty('Tên combo không được để trống')
-    .max(255, 'Tên combo tối đa 255 ký tự'),
+    .nonempty('Tên order không được để trống')
+    .max(255, 'Tên order tối đa 255 ký tự'),
   serviceId: string().nonempty('Bạn chưa chọn dịch vụ'),
   quantity: string()
     .transform((p) => p.toString().replace(/,/g, ''))
@@ -32,16 +32,16 @@ const variantSchema = object({
   description: string().max(500, 'Mô tả tối đa 500 ký tự'),
 });
 
-interface ComboPageState {
+interface OrderPageState {
   suggestService: boolean;
   searchService: string;
 }
 
-export default function Combo() {
+export default function Order() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
-  const { combo } = useGetCombo(params.id);
-  const [pageState, setPageState] = useCombineState<ComboPageState>({
+  const { order } = useGetOrder(params.id);
+  const [pageState, setPageState] = useCombineState<OrderPageState>({
     suggestService: false,
     searchService: '',
   });
@@ -56,10 +56,10 @@ export default function Combo() {
     setValue,
     getValues,
     formState: { isSubmitting, errors, isValid, isDirty },
-  } = useForm<ComboRequest>({
+  } = useForm<OrderRequest>({
     resolver: zodResolver(variantSchema),
     mode: 'onChange',
-    values: combo,
+    values: order,
   });
 
   const form = getValues();
@@ -69,38 +69,38 @@ export default function Combo() {
     [form.serviceId, services]
   );
 
-  const onSubmit = async (data: ComboRequest) => {
+  const onSubmit = async (data: OrderRequest) => {
     if (params.id) {
       try {
-        await comboApi.updateCombo(params.id, data);
-        toast('Cập nhật combo thành công');
+        await orderApi.updateOrder(params.id, data);
+        toast('Cập nhật order thành công');
       } catch (error) {
-        toast.error('Cập nhật combo thất bại');
+        toast.error('Cập nhật order thất bại');
       }
     } else {
       try {
-        const response = await comboApi.createCombo(data);
-        toast('Thêm combo thành công');
-        navigate(`/admin/combos/${response.$id}`);
+        const response = await orderApi.createOrder(data);
+        toast('Thêm order thành công');
+        navigate(`/admin/orders/${response.$id}`);
       } catch (error) {
-        toast.error('Thêm combo thất bại');
+        toast.error('Thêm order thất bại');
       }
     }
   };
 
   return (
     <>
-      <Link to={'/admin/combos'} className="">
+      <Link to={'/admin/orders'} className="">
         Khách hàng
       </Link>
-      <h2 className="text-xl font-semibold py-4">Thêm mới combo</h2>
+      <h2 className="text-xl font-semibold py-4">Thêm mới order</h2>
       <form onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}>
         <div className="grid lg:flex w-full gap-4">
           <div className="bg-white border rounded shadow-sm p-4 lg:w-2/3">
             <div className="grid lg:grid-cols-2 gap-x-6">
               <Input
-                title="Tên combo"
-                placeholder="Nhập tên combo"
+                title="Tên order"
+                placeholder="Nhập tên order"
                 {...register('name')}
                 error={errors.name?.message}
               />
@@ -178,7 +178,7 @@ export default function Combo() {
           </div>
         </div>
         <div className="flex justify-end mt-4">
-          <Link to="/admin/combos">
+          <Link to="/admin/orders">
             <button className="btn">Hủy</button>
           </Link>
           <button className="btn btn-primary ml-2" type="submit">

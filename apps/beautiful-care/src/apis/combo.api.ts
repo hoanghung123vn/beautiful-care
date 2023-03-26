@@ -6,7 +6,7 @@ export const collectionId = import.meta.env.VITE_COMBO_COLLETION_ID;
 
 export interface ComboRequest {
   name: string;
-  serviceId: number;
+  serviceId: string;
   quantity: number;
   description: string;
   price: number;

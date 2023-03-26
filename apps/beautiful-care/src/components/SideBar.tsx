@@ -13,6 +13,16 @@ interface SideBarProps {
 }
 
 export default function SideBar({ className }: SideBarProps) {
+  const dashboardActive = !!useMatch({
+    path: '/admin/dashboard',
+    end: false,
+  });
+
+  const orderActive = !!useMatch({
+    path: '/admin/orders',
+    end: false,
+  });
+
   const customerActive = !!useMatch({
     path: '/admin/customers',
     end: false,
@@ -29,12 +39,29 @@ export default function SideBar({ className }: SideBarProps) {
   });
 
   return (
-    <div className={classNames('bg-gray-800 w-56 text-white', className)}>
+    <div
+      className={classNames(
+        'bg-gray-800 w-56 text-white fixed h-screen',
+        className
+      )}
+    >
       <ul className="menu w-56 p-2">
         <li>
-          <Link to={'/admin'}>
+          <Link
+            to={'/admin/dashboard'}
+            className={classNames({ active: dashboardActive })}
+          >
             <HomeIcon className="h-5" />
             Tổng quan
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/admin/orders"
+            className={classNames({ active: orderActive })}
+          >
+            <CustomerIcon className="h-5" />
+            Đơn hàng
           </Link>
         </li>
         <li>

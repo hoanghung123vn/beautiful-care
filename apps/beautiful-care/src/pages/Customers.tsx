@@ -1,8 +1,8 @@
-import { Pagination, SpinnerIcon } from '@beautiful-care/ui-component';
-import { useReducer } from 'react';
+import { Pagination, SpinnerIcon, Input } from '@beautiful-care/ui-component';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetCustomers } from '../hooks/useGetCustomer';
+import { useCombineState } from '../hooks/useCombineState';
 import { useDebounce } from '../hooks/useDebounce';
+import { useGetCustomers } from '../hooks/useGetCustomer';
 
 export interface CustomersPageState {
   page: number;
@@ -11,16 +11,12 @@ export interface CustomersPageState {
 }
 
 export default function Customers() {
-  const [paginate, setPaginate] = useReducer(
-    (
-      prev: CustomersPageState,
-      next: Partial<CustomersPageState>
-    ): CustomersPageState => {
-      return { ...prev, ...next };
-    },
-    { page: 1, limit: 5, phone: '' }
-  );
-  const { page, limit, phone } = paginate;
+  const [pageState, setPageState] = useCombineState<CustomersPageState>({
+    page: 1,
+    limit: 5,
+    phone: '',
+  });
+  const { page, limit, phone } = pageState;
   const phoneDebounce = useDebounce(phone, 500);
   const { customers, isLoading, isError, total } = useGetCustomers(
     page,
@@ -48,22 +44,14 @@ export default function Customers() {
             <ul
               tabIndex={0}
               className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Item 2</a>
-              </li>
-            </ul>
+            ></ul>
           </div>
           <div className="form-control w-full">
             <div className="input-group">
-              <input
+              <Input
                 placeholder="Tìm kiếm bằng SĐT"
-                className="input input-bordered w-full"
                 onChange={(event) =>
-                  setPaginate({ phone: event.target.value, page: 1 })
+                  setPageState({ phone: event.target.value, page: 1 })
                 }
               />
             </div>
@@ -132,7 +120,7 @@ export default function Customers() {
               total={total}
               page={page}
               limit={limit}
-              onPageChange={(page) => setPaginate({ page })}
+              onPageChange={(page) => setPageState({ page })}
             />
           </>
         )}

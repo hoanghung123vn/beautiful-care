@@ -1,4 +1,9 @@
-import { Pagination, SpinnerIcon } from '@beautiful-care/ui-component';
+import {
+  formatNumber,
+  Pagination,
+  SpinnerIcon,
+  Input,
+} from '@beautiful-care/ui-component';
 import { useReducer } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetServices } from '../hooks/useGetService';
@@ -48,20 +53,12 @@ export default function Services() {
             <ul
               tabIndex={0}
               className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Item 2</a>
-              </li>
-            </ul>
+            ></ul>
           </div>
           <div className="form-control w-full">
             <div className="input-group">
-              <input
+              <Input
                 placeholder="Tìm kiếm bằng tên"
-                className="input input-bordered w-full"
                 onChange={(event) =>
                   setPaginate({ name: event.target.value, page: 1 })
                 }
@@ -99,11 +96,6 @@ export default function Services() {
                       </th>
                       <td>
                         <div className="flex items-center space-x-3">
-                          <div className="avatar">
-                            <div className="mask mask-squircle w-8 h-8">
-                              <img src="https://via.placeholder.com/32x32" />
-                            </div>
-                          </div>
                           <div>
                             <div className="font-bold">
                               <Link to={`/admin/services/${service.$id}`}>
@@ -113,7 +105,7 @@ export default function Services() {
                           </div>
                         </div>
                       </td>
-                      <td>{service.price} đ</td>
+                      <td>{formatNumber(service.price)} đ</td>
                       <td>{service.description}</td>
                     </tr>
                   ))}

@@ -1,17 +1,17 @@
 import { Query } from 'appwrite';
 import { useEffect, useReducer } from 'react';
 import { FetchState } from '.';
-import { Service, serviceApi } from '../apis/service.api';
+import { Order, orderApi } from '../apis/order.api';
 
-interface GetServicesState {
+interface GetOrdersState {
   isLoading: boolean;
   isError: boolean;
-  services: Service[];
+  orders: Order[];
   total: 0;
 }
 
-export const useGetServices = (page: number, limit: number, name?: string) => {
-  const reducer = (state: GetServicesState, action: any) => {
+export const useGetOrders = (page: number, limit: number, name: string) => {
+  const reducer = (state: GetOrdersState, action: any) => {
     switch (action.type) {
       case FetchState.FETCH_INIT:
         return { ...state, isLoading: true, isError: false };
@@ -20,7 +20,7 @@ export const useGetServices = (page: number, limit: number, name?: string) => {
           ...state,
           isLoading: false,
           isError: false,
-          services: action.payload.services as Service[],
+          orders: action.payload.orders as Order[],
           total: action.payload.total,
         };
       case FetchState.FETCH_FAILURE:
@@ -33,16 +33,16 @@ export const useGetServices = (page: number, limit: number, name?: string) => {
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     isError: false,
-    services: [],
+    orders: [],
     total: 0,
   });
 
   useEffect(() => {
     let didCancel = false;
-    const getServices = async () => {
+    const getOrders = async () => {
       dispatch({ type: FetchState.FETCH_INIT });
       try {
-        const data = await serviceApi.getServices(
+        const data = await orderApi.getOrders(
           name
             ? [
                 Query.limit(limit),
@@ -54,7 +54,7 @@ export const useGetServices = (page: number, limit: number, name?: string) => {
         if (!didCancel) {
           dispatch({
             type: FetchState.FETCH_SUCCESS,
-            payload: { services: data.documents, total: data.total },
+            payload: { orders: data.documents, total: data.total },
           });
         }
       } catch (e) {
@@ -63,7 +63,7 @@ export const useGetServices = (page: number, limit: number, name?: string) => {
         }
       }
     };
-    getServices();
+    getOrders();
     return () => {
       didCancel = true;
     };
@@ -72,14 +72,14 @@ export const useGetServices = (page: number, limit: number, name?: string) => {
   return state;
 };
 
-interface GetServiceState {
+interface GetOrderState {
   isLoading: boolean;
   isError: boolean;
-  service: any;
+  order: any;
 }
 
-export const useGetService = (id?: string) => {
-  const reducer = (state: GetServiceState, action: any) => {
+export const useGetOrder = (id?: string) => {
+  const reducer = (state: GetOrderState, action: any) => {
     switch (action.type) {
       case FetchState.FETCH_INIT:
         return { ...state, isLoading: true, isError: false };
@@ -88,7 +88,7 @@ export const useGetService = (id?: string) => {
           ...state,
           isLoading: false,
           isError: false,
-          service: action.payload as Service,
+          order: action.payload as Order,
         };
       case FetchState.FETCH_FAILURE:
         return { ...state, isLoading: false, isError: true };
@@ -100,15 +100,15 @@ export const useGetService = (id?: string) => {
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     isError: false,
-    service: null,
+    order: null,
   });
 
   useEffect(() => {
     let didCancel = false;
-    const getService = async (id: string) => {
+    const getOrder = async (id: string) => {
       dispatch({ type: FetchState.FETCH_INIT });
       try {
-        const data = await serviceApi.getService(id);
+        const data = await orderApi.getOrder(id);
         if (!didCancel) {
           dispatch({
             type: FetchState.FETCH_SUCCESS,
@@ -122,7 +122,7 @@ export const useGetService = (id?: string) => {
       }
     };
     if (id) {
-      getService(id);
+      getOrder(id);
     }
     return () => {
       didCancel = true;
