@@ -4,7 +4,7 @@ import {
   DiscountIcon,
   HomeIcon,
   ProductIcon,
-} from 'libs/ui-component/src/lib/Icons';
+} from '@beautiful-care/ui-component';
 import { Link, useMatch } from 'react-router-dom';
 
 interface SideBarProps {
@@ -15,6 +15,16 @@ interface SideBarProps {
 export default function SideBar({ className }: SideBarProps) {
   const customerActive = !!useMatch({
     path: '/admin/customers',
+    end: false,
+  });
+
+  const serviceActive = !!useMatch({
+    path: '/admin/services',
+    end: false,
+  });
+
+  const comboActive = !!useMatch({
+    path: '/admin/combos',
     end: false,
   });
 
@@ -37,13 +47,19 @@ export default function SideBar({ className }: SideBarProps) {
           </Link>
         </li>
         <li>
-          <Link to={'/admin/services'}>
+          <Link
+            to={'/admin/services'}
+            className={classNames({ active: serviceActive })}
+          >
             <ProductIcon className="h-5" />
             Dịch vụ
           </Link>
         </li>
         <li>
-          <Link to={'/admin/combos'}>
+          <Link
+            to={'/admin/combos'}
+            className={classNames({ active: comboActive })}
+          >
             <DiscountIcon className="h-5" />
             Combo
           </Link>

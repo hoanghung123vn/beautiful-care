@@ -8,7 +8,7 @@ import { customerApi, CustomerRequest } from '../apis/customer.api';
 import Input from '../components/Input';
 import Select from '../components/Select';
 import TextArea from '../components/TextArea';
-import { useGetCustomer } from '../hooks';
+import { useGetCustomer } from '../hooks/useGetCustomer';
 
 const variantSchema = object({
   name: string()

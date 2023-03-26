@@ -1,10 +1,5 @@
 import classNames from 'classnames';
 
-export interface PaginateProps {
-  page: number;
-  limit: number;
-}
-
 export interface PaginationProps {
   total: number;
   page: number;
@@ -26,7 +21,7 @@ export function Pagination({
   return (
     <div className={classNames('flex justify-between', className)}>
       <h2>
-        Hiển thị kết quả từ {fromRecord}-{toRecord} trên tổng số {total}
+        Hiển thị kết quả từ {fromRecord} - {toRecord} trên tổng số {total}
       </h2>
       <div className="btn-group">
         {page > 2 && (

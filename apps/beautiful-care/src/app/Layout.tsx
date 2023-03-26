@@ -1,4 +1,4 @@
-import { SpinnerIcon } from 'libs/ui-component/src/lib/Icons';
+import { SpinnerIcon } from '@beautiful-care/ui-component';
 import { Navigate, Outlet } from 'react-router-dom';
 import MainNav from '../components/MainNav';
 import SideBar from '../components/SideBar';

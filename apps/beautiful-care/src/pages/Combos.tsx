@@ -1,31 +1,31 @@
 import { Pagination, SpinnerIcon } from '@beautiful-care/ui-component';
 import { useReducer } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetCustomers } from '../hooks/useGetCustomer';
+import { useGetCombos } from '../hooks/useGetCombo';
 import { useDebounce } from '../hooks/useDebounce';
 
-export interface CustomersPageState {
+export interface CombosPageState {
   page: number;
   limit: number;
-  phone: string;
+  name: string;
 }
 
-export default function Customers() {
+export default function Combos() {
   const [paginate, setPaginate] = useReducer(
     (
-      prev: CustomersPageState,
-      next: Partial<CustomersPageState>
-    ): CustomersPageState => {
+      prev: CombosPageState,
+      next: Partial<CombosPageState>
+    ): CombosPageState => {
       return { ...prev, ...next };
     },
-    { page: 1, limit: 5, phone: '' }
+    { page: 1, limit: 5, name: '' }
   );
-  const { page, limit, phone } = paginate;
-  const phoneDebounce = useDebounce(phone, 500);
-  const { customers, isLoading, isError, total } = useGetCustomers(
+  const { page, limit, name } = paginate;
+  const nameDebounce = useDebounce(name, 500);
+  const { combos, isLoading, isError, total } = useGetCombos(
     page,
     limit,
-    phoneDebounce
+    nameDebounce
   );
   const navigate = useNavigate();
   return (
@@ -34,16 +34,16 @@ export default function Customers() {
         <h2 className="text-lg font-semibold">Khách hàng</h2>
         <button
           className="btn btn-primary"
-          onClick={() => navigate('/admin/customers/create')}
+          onClick={() => navigate('/admin/combos/create')}
         >
-          Thêm khách hàng
+          Thêm combo
         </button>
       </div>
       <div className="bg-white mt-4 rounded p-4">
         <div className="flex items-center">
           <div className="dropdown">
             <label tabIndex={0} className="btn m-1 w-48">
-              Lọc khách hàng
+              Lọc combo
             </label>
             <ul
               tabIndex={0}
@@ -60,10 +60,10 @@ export default function Customers() {
           <div className="form-control w-full">
             <div className="input-group">
               <input
-                placeholder="Tìm kiếm bằng SĐT"
+                placeholder="Tìm kiếm bằng tên"
                 className="input input-bordered w-full"
                 onChange={(event) =>
-                  setPaginate({ phone: event.target.value, page: 1 })
+                  setPaginate({ name: event.target.value, page: 1 })
                 }
               />
             </div>
@@ -85,15 +85,14 @@ export default function Customers() {
                       </label>
                     </th>
                     <th>Tên</th>
-                    <th>Số điện thoại</th>
-                    <th>Email</th>
-                    <th>Tổng số dịch vụ sử dụng</th>
-                    <th>Tổng chi tiêu</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Mô tả</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {customers.map((customer) => (
-                    <tr key={customer.$id}>
+                  {combos.map((combo) => (
+                    <tr key={combo.$id}>
                       <th>
                         <label>
                           <input type="checkbox" className="checkbox" />
@@ -108,20 +107,16 @@ export default function Customers() {
                           </div>
                           <div>
                             <div className="font-bold">
-                              <Link to={`/admin/customers/${customer.$id}`}>
-                                {customer.name}
+                              <Link to={`/admin/combos/${combo.$id}`}>
+                                {combo.name}
                               </Link>
-                            </div>
-                            <div className="text-sm opacity-50">
-                              {customer.address}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td>{customer.phone}</td>
-                      <td>{customer.email}</td>
-                      <td>{customer.totalUsedTimes || 0}</td>
-                      <td>{customer.totalSpend || 0} đ</td>
+                      <td>{combo.quantity}</td>
+                      <td>{combo.price} đ</td>
+                      <td>{combo.description}</td>
                     </tr>
                   ))}
                 </tbody>

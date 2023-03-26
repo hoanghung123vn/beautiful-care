@@ -5,6 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from './Layout';
 import Login from './Login';
 import Customer from '../pages/Customer';
+import Services from '../pages/Services';
+import Service from '../pages/Service';
+import Combos from '../pages/Combos';
+import Combo from '../pages/Combo';
 
 export function App() {
   return (
@@ -25,6 +29,12 @@ export function App() {
             <Route path="customers" element={<Customers />} />
             <Route path="customers/create" element={<Customer />} />
             <Route path="customers/:id" element={<Customer />} />
+            <Route path="services" element={<Services />} />
+            <Route path="services/create" element={<Service />} />
+            <Route path="services/:id" element={<Service />} />
+            <Route path="combos" element={<Combos />} />
+            <Route path="combos/create" element={<Combo />} />
+            <Route path="combos/:id" element={<Combo />} />
           </Route>
         </Routes>
       </BrowserRouter>
